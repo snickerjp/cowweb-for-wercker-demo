@@ -8,16 +8,18 @@ spec:
     matchLabels:
       app: cowweb
   strategy:
-    type: Recreate
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   template:
     metadata:
       labels:
         app: cowweb
-        version: v1.0
     spec:
       containers:
       - name: cowweb
-        image: iad.ocir.io/gse00014523/sample/cowweb:v1.0
+        image: ${region-code}.ocir.io/${tenancy}/${repository}/cowweb:v1.0
         ports:
         - name: api
           containerPort: 8080
